@@ -1,0 +1,36 @@
+import matplotlib.pyplot as plt
+import numpy as np
+import random
+
+random.seed(1)
+
+weight_matrix = [
+    [0, 73, 98, 9, 33],
+    [16, 0, 98, 58, 61],
+    [84, 49, 0, 13, 63],
+    [4, 50, 56, 0, 98],
+    [99, 1, 90, 58, 0]
+]
+
+weights = np.array(weight_matrix)
+num_vertices = len(weights)
+vertices = [i for i in range(num_vertices)]
+G = np.zeros_like(weights)
+pos = {i: (random.random(), random.random()) for i in vertices}
+plt.figure(figsize=(8, 8))
+plt.title("Graph Representation from Weight Matrix with Edge Weights")
+plt.scatter(*zip(*pos.values()), s=300, c='r', marker='o')
+
+for i in range(num_vertices):
+    for j in range(i + 1, num_vertices):
+        if weights[i][j] > 0:
+            plt.plot(*zip(pos[i], pos[j]), linestyle='-', linewidth=2, color='b')
+            plt.text(np.mean([pos[i][0], pos[j][0]]), np.mean([pos[i][1], pos[j][1]]),
+                     str(weights[i][j]), fontsize=10, color='black')
+
+for vertex, position in pos.items():
+    plt.text(position[0], position[1], str(vertex), fontsize=12, ha='center', va='center', color='white')
+
+plt.show()
+
+

@@ -1,0 +1,43 @@
+
+def printknapSack(W, thoigian, giatien, n):
+	K = [[0 for w in range(W + 1)]
+			for i in range(n + 1)]
+			
+	
+	for i in range(n + 1):
+		for w in range(W + 1):
+			if i == 0 or w == 0:
+				K[i][w] = 0
+			elif thoigian[i - 1] <= w:
+				K[i][w] = max(giatien[i - 1] 
+				+ K[i - 1][w - thoigian[i - 1]],
+							K[i - 1][w])
+			else:
+				K[i][w] = K[i - 1][w]
+
+	ketqua = K[n][W]
+	print(ketqua)
+	
+	w = W
+	for i in range(n, 0, -1):
+		if ketqua <= 0:
+			break
+	
+		if ketqua == K[i - 1][w]:
+			continue
+		else:
+
+			# This item is included.
+			print(thoigian[i - 1])
+			
+			
+			ketqua = ketqua - giatien[i - 1]
+			w = w - thoigian[i - 1]
+
+thoigian = [30,60,15,40,20,50,30,55,20,40,25,29,45,45,45] 
+giatien = [1000,1500,2000,1250,1850,1850,1250,2550,1500,1500,1500,1500,2000,2100,2300] 
+W = 300
+n = len(giatien)
+	
+printknapSack(W, thoigian, giatien, n)
+

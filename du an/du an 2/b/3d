@@ -1,0 +1,48 @@
+import matplotlib.pyplot as plt
+import numpy as np
+import random
+random.seed(1)
+weight_matrix = [
+    [0, 73, 98, 9, 33],
+    [16, 0, 98, 58, 61],
+    [84, 49, 0, 13, 63],
+    [4, 50, 56, 0, 98],
+    [99, 1, 90, 58, 0]
+]
+
+# Chuyển ma trận trọng số thành mảng NumPy để dễ xử lý
+weights = np.array(weight_matrix)
+
+# Số đỉnh của đồ thị
+num_vertices = len(weights)
+
+# Tạo danh sách các đỉnh
+vertices = [i for i in range(num_vertices)]
+
+# Tạo đồ thị vô hướng từ ma trận trọng số
+G = np.zeros_like(weights)
+
+# Tạo vị trí của các đỉnh trên đồ thị
+pos = {i: (random.random(), random.random()) for i in vertices}
+
+# Vẽ đồ thị với matplotlib
+fig = plt.figure(figsize=(8, 8))
+ax = fig.add_subplot(projection='3d')
+ax.set_title("Graph Representation from Weight Matrix with Edge Weights")
+
+# Vẽ các đỉnh
+ax.scatter(*zip(*pos.values()), s=300, c='r', marker='o')
+
+# Vẽ các cạnh và thêm trọng số
+for i in range(num_vertices):
+    for j in range(i + 1, num_vertices):
+        if weights[i][j] > 0:
+            ax.plot(*zip(pos[i], pos[j]), linestyle='-', linewidth=2, color='b')
+            ax.text(np.mean([pos[i][0], pos[j][0]]), np.mean([pos[i][1], pos[j][1]]), np.mean([weights[i][j], weights[j][i]]),
+                     str(weights[i][j]), fontsize=10, color='black')
+
+# Đặt nhãn cho các đỉnh
+for vertex, position in pos.items():
+    ax.text(position[0], position[1], 0, str(vertex), fontsize=12, ha='center', va='center', color='white')
+
+plt.show()

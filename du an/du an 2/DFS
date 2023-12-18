@@ -1,0 +1,71 @@
+
+// thuật toán tìm kiếm theo chiều sâu là 1 giải thuật tìm kiếm ,duyệt đồ thị
+// sử dụng đệ quy, thuật toán uư tiên đi sâu nhất coa thể, ở đây ta thống nhất
+// khi mở rộng đồ thị thì sẽ ưu tiên mở rộng đỉnh có thứ tự nhỏ trước
+
+#include<bits/stdc++.h>
+using namespace std;
+
+const int MAX = 100; // Số lượng tối đa phần tử có thể duyệt qua
+bool visited[MAX];
+int m;
+int n;
+int s;
+int a[1000][1000];
+vector <int > ke[1005];
+void nhap(){
+    cin>>n;
+    cin>>m;          
+    cin>>s;
+    for (int i = 0;i<m;i++){
+        int x;
+        int y;
+        cin>>x;
+        cin>>y;
+        ke[x].push_back(y);
+        ke[y].push_back(x);
+    }
+    for (int i = 1;i <= n;i++){
+        sort(ke[i].begin(),ke[i].end());
+
+    }
+}
+void DFS(int u){
+    cout <<u<<' ';
+    visited[u] = 1;
+    // danh sách kề
+    for (auto v:ke[u]){
+        if (!visited[v])
+        {
+            DFS(v);
+        }
+    }
+    // ma trận kề
+    for (int v = 1;v<=n;v++){
+        if (a[u][v] == 1){
+            if (!visited[v]){
+                DFS(v);
+            }
+        }
+
+    }
+
+}
+//=========== dem so thanh phan lien thong===================
+int tplt(){
+    int count = 0;
+    for (int i = 1;i<=n;i++){
+        if (!visited[i]){
+            count ++;
+            DFS(i);
+        }
+    }
+    return count;
+}
+
+//=====dem so duong di giua 2 do thi ==========
+
+int main(){
+    nhap();
+    DFS(s);
+}

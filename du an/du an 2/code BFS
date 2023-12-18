@@ -1,0 +1,70 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int n,m;
+vector<int > v[1005];
+int visited[1005];
+int tplt[1005];
+int dem;
+
+
+void nhap(){
+    cin>>n>>m;
+    for (int i = 0;i<m;i++){
+        int x,y;
+        cin>>x>>y;
+        v[x].push_back(y);  
+        v[y].push_back(x);
+    }
+    memset(visited,false,sizeof(visited));
+}
+
+void BFS(int u){
+    queue<int>q;
+    q.push(u); 
+    visited[u] = true;
+    while (!q.empty())// nếu hàng đợi vẫn còn phẩnf tử 
+    {   
+        int x = q.front();q.pop();// lấy ra đỉnh ở đầu hàng đợi
+        // cout <<x<<" ";
+        tplt[x] =dem;
+        // duyệt các đỉnh kề với v mà chưa đươcj thăm và đẩy vào hàng đợi
+        for(int y: v[x]){
+            if (!visited[y]){
+                q.push(y);
+                visited[y] =true;
+
+            }
+        }
+    }
+    
+}
+
+
+int main(){
+    nhap();
+    for(int i =1;i<=n;i++){
+        if (!visited[i]){
+            ++dem;
+            BFS(i); 
+        }
+    }
+    int q;
+    cin>>q;
+    while (q--)
+    {
+        int s;// s đỉnh đầu
+        int t;// t đỉnh cuối
+        cin>>s;  
+        cin>>t;
+        // memset(visited,0,sizeof(visited));
+        // BFS(s);
+        // if (!visited[t] ){
+        if (tplt[s] == tplt[t] ){
+            cout <<"NO\n";
+        }
+        else{
+            cout <<"YES\n";
+        }
+    }
+}
